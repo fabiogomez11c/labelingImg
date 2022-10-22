@@ -1,45 +1,56 @@
 import React from 'react';
-
+import filenames from './filenames.json';
+import {Button, Card, CardActions, CardContent, CardMedia, Typography} from "@mui/material";
 
 function App() {
-  const [sources, setSources] = React.useState([]);
-  const [imgsrc, setImgsrc] = React.useState('');
+  const [sources, setSources] = React.useState(filenames.filename);
+  const [imgsrc, setImgsrc] = React.useState('test/Honda_civic_2005/10287.jpg');
   const [result, setResult] = React.useState({label: []});
 
   const labels = ['front', 'side_front', 'side', 'back_side', 'back'];
 
   // clean sources
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    setSources(filenames.filename);
+    document.querySelector(".soyimagen").src = require(`./data/splited_data/${imgsrc}`)
+  }, []);
 
-  // load new
+  // // load new
   React.useEffect(() => {
     setSources(sources.slice(1));
   }, [result]);
 
   // update imgsrc
   React.useEffect(() => {
-    setImgsrc(sources[0])
+    setImgsrc(sources[0].replace('./data/splited_data/', ''));
   }, [sources])
+  React.useEffect(() => {
+    document.querySelector(".soyimagen").src = require(`./data/splited_data/${imgsrc}`)
+  }, [imgsrc])
 
   // handle new item
   const handleNew = (e) => {
-    const clickLabel = e.target.value;
-    setResult({
-      result: result.label.push([imgsrc, clickLabel]),
-    });
+    const clickLabel = e.target.innerText;
+    let labelAux = result.label;
+    labelAux.push([imgsrc, clickLabel]);
+    setResult({label: labelAux});
   };
 
   return (
     <div className="App">
-        {
-          sources.length > 1
-            ? <img src={imgsrc} className="App-logo" alt="logo" />
-              : <p>No more data</p>
-        }
-        <p>Left: {sources.length}</p>
-        {
-          labels.map((item, index) => <button key={index} onClick={e => handleNew(e)} disabled={sources.length === 0}>{item}</button>)
-        }
+      <img src="" className="soyimagen" width="600px" height="500px"/>
+      <Card>
+        <CardContent>
+          <Typography>Left: {sources.length}</Typography>
+        </CardContent>
+        <CardActions>
+          {
+            labels.map((item, index) => <Button key={index} onClick={e => handleNew(e)} disabled={sources.length === 0} variant='contained'>
+              {item}
+            </Button>)
+          }
+        </CardActions>
+      </Card>
     </div>
   );
 }
