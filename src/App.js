@@ -1,23 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+
+function Label({label}) {
+  return <button>{label}</button>
+}
 
 function App() {
+  const [imgsrc, setImgsrc] = React.useState('');
+
+  const labels = ['front', 'side_front', 'side', 'back_side', 'back'];
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <img src={imgsrc} className="App-logo" alt="logo" />
+        {
+          labels.map((item, index) => <Label key={index} label={item} />)
+        }
     </div>
   );
 }
