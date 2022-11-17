@@ -7,7 +7,7 @@ function App() {
   const [imgsrc, setImgsrc] = React.useState('test/Honda_civic_2005/10287.jpg');
   const [result, setResult] = React.useState({label: []});
 
-  const labels = ['front', 'side_front', 'side', 'back_side', 'back'];
+  const labels = ['front', 'back', 'side', 'skip'];
 
   // clean sources
   React.useEffect(() => {
